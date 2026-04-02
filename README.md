@@ -50,6 +50,9 @@ Built to demonstrate:
 - Production deployment
 - Coding for fun
 
+## 📸 Preview
+![Preview](.github/images/preview.png)
+
 ---
 
 **MIT LICENSE**
