@@ -46,7 +46,7 @@ jobs:
             cd ~/project/sysmon
 
             echo "📥 Pull latest code"
-            git pull live live
+            git pull origin deploy
 
             echo "📦 Install dependencies"
             npm install
@@ -61,5 +61,4 @@ jobs:
             sleep 5
 
             echo "🔍 Health Check"
-            # Ganti 3000 dengan port aplikasi kamu
             curl -f http://localhost:3000 || (echo "❌ App crashed! Check logs below:" && pm2 logs sysmon --lines 20 --no-daemon && exit 1)
