@@ -61,5 +61,6 @@ jobs:
             sleep 5
 
             echo "🔍 Health Check"
-            curl http://127.0.0.1:3000 && pm2 logs sysmon --lines 20 --nostream && exit 1
+            pm2 jlist | grep -q '"name":"sysmon","pm2_env":{"status":"online"' || (pm2 logs sysmon --lines 20 --nostream && exit 1)
+
 
