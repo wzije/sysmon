@@ -18,6 +18,7 @@ Simple server monitoring dashboard built with **Express + TypeScript**.
 
 ```bash
 npm install
+npm run lint
 npm run build
 npm start
 ```
@@ -30,24 +31,25 @@ APP_USER=super
 APP_PASSWORD=superexpress
 ```
 
+## 🔍 Test
+
+- lint test
+
 ## 🚀 Deployment
 
-- VPS (Linode)
+- VPS
 - PM2 process manager
-- Nginx reverse proxy
 - Auto deploy via GitHub Actions
 
 ## 🎯 Purpose
 
-Built as a portfolio project to demonstrate:
+Built to demonstrate:
 
 - Backend structuring (Express)
 - CI/CD pipeline
 - Production deployment
+- Coding for fun
 
 ---
-__MIT LICENSE__
 
---_Just Coding for fun_--
-
-
+**MIT LICENSE**
