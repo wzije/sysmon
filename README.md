@@ -23,12 +23,18 @@ npm run build
 npm start
 ```
 
-Create `.env`:
+Create `.env` ( or copy from `.env.example` ):
+
+```bash
+cp .env.example .env
+```
 
 ```env
-APP_PORT=3000
-APP_USER=super
-APP_PASSWORD=superexpress
+APP_NAME=SysMon
+PORT=3000
+AUTH_USER=admin
+AUTH_PASSWORD=admin
+RATE_LIMIT_MAX=100
 ```
 
 ## 🔍 Test
@@ -52,6 +58,7 @@ Built to:
 - Just for fun
 
 ## 📸 Preview
+
 ![Preview](.github/images/preview.png)
 
 ---
