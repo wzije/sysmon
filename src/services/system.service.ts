@@ -3,14 +3,13 @@ import si from "systeminformation"
 import os from "os"
 
 export const getSystemData = async () => {
-    const [cpu, mem, disk, time, osInfo, net, loaded, procs] = await Promise.all([
+    const [cpu, mem, disk, time, osInfo, net, procs] = await Promise.all([
         si.currentLoad(),
         si.mem(),
         si.fsSize(),
         si.time(),
         si.osInfo(),
         si.networkInterfaces(),
-        si.currentLoad(),
         si.processes()
     ]);
 

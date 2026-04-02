@@ -6,5 +6,5 @@ export const ENV = {
         USER: process.env.AUTH_USER ?? "user",
         PASSWORD: process.env.AUTH_PASSWORD ?? "user",
     },
-    RATE_LIMIT_MAX: Number(process.env.RATE_LIMIT_MAX) ?? 20,
+    RATE_LIMIT_MAX: process.env.RATE_LIMIT_MAX ?? 20,
 };
