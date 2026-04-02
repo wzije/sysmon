@@ -61,5 +61,5 @@ jobs:
             sleep 5
 
             echo "🔍 Health Check"
-            curl -f http://${{ secrets.HOST }}:3000  && pm2 logs sysmon --lines 20 --nostream && exit 1
+            curl http://127.0.0.1:3000 && pm2 logs sysmon --lines 20 --nostream && exit 1
 
