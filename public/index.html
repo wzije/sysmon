@@ -133,6 +133,12 @@
       </p>
     </div>
 
+      <!-- Uptime -->
+    <div class="bg-white p-4 rounded-xl shadow">
+      <h2 class="font-semibold mb-2">⏱️ Uptime</h2>
+      <p class="text-xl font-bold">${data.uptime}</p>
+    </div>
+
     <!-- Disk -->
     <div class="bg-white p-4 rounded-xl shadow">
       <h2 class="font-semibold mb-2">💾 Disk</h2>
@@ -153,17 +159,43 @@
       ${netHtml}
     </div>
 
-    <!-- Uptime -->
-    <div class="bg-white p-4 rounded-xl shadow">
-      <h2 class="font-semibold mb-2">⏱️ Uptime</h2>
-      <p class="text-xl font-bold">${data.uptime}</p>
-    </div>
+  
 
     <!-- Process -->
     <div class="bg-white p-4 rounded-xl shadow">
       <h2 class="font-semibold mb-2">🔥 Processes</h2>
       <p class="text-xl font-bold">${data.processes.running}</p>
       <p class="text-sm text-gray-500">Running</p>
+    </div>
+
+        <!-- Top CPU -->
+    <div class="bg-white p-4 rounded-xl shadow">
+        <h2 class="font-semibold mb-2">🧠 Top CPU Usage</h2>
+        <div class="space-y-2">
+            ${data.processes.topCPU.map(p => `
+            <div>
+                <div class="flex justify-between w-ful pb-1 text-sm border-b">
+                   <span class="truncate pr-2">${p.name}</span>
+                    <span class="font-bold" style="width:${p.cpu}%">${p.cpu.toFixed(1)}%</span>
+                </div>
+            </div>
+            `).join("")}
+        </div>
+    </div>
+
+        <!-- Top Mem -->
+    <div class="bg-white p-4 rounded-xl shadow">
+        <h2 class="font-semibold mb-2">💾 Top Memory Usage</h2>
+        <div class="space-y-2">
+            ${data.processes.topMemory.map(p => `
+            <div class="border-b pb-2">
+                <div class="flex flex-row justify-between w-full text-sm">
+                    <span class="truncate pr-2">${p.name}</span>
+                    <span class="font-bold" style="width:${p.mem}%">${p.mem.toFixed(1)}%</span>
+                </div>
+            </div>
+            `).join("")}
+        </div>
     </div>
 
   `;

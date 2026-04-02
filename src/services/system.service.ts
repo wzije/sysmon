@@ -22,6 +22,15 @@ export const getSystemData = async () => {
         usage: d.use.toFixed(2) + "%"
     }));
 
+    const topCPU = procs.list
+        .sort((a, b) => b.cpu - a.cpu)
+        .slice(0, 5);
+
+    // Top Memory
+    const topMemory = procs.list
+        .sort((a, b) => b.memRss - a.memRss)
+        .slice(0, 5);
+
 
 
     return {
@@ -56,7 +65,10 @@ export const getSystemData = async () => {
 
         processes: {
             all: procs.all,
-            running: procs.running
-        }
+            running: procs.running,
+            topCPU: topCPU,
+            topMemory: topMemory
+        },
+
     };
 }
