@@ -37,14 +37,14 @@ jobs:
       - name: 🚀 Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/pshpac/project/sysmon
+            cd ~/project/sysmon-live
 
             echo "📥 Pull latest code"
-            git pull origin main
+            git pull live live
 
             echo "📦 Install dependencies"
             npm install
@@ -53,4 +53,4 @@ jobs:
             npm run build
 
             echo "♻️ Restart app"
-            pm2 restart sysinfo || pm2 start dist/server.js --name sysinfo
+            pm2 restart sysmon || pm2 start dist/server.js --name sysmon
