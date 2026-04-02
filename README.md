@@ -43,12 +43,13 @@ APP_PASSWORD=superexpress
 
 ## 🎯 Purpose
 
-Built to demonstrate:
+Built to:
 
+- Server Monitoring
 - Backend structuring (Express)
 - CI/CD pipeline
 - Production deployment
-- Coding for fun
+- Just for fun
 
 ## 📸 Preview
 ![Preview](.github/images/preview.png)
