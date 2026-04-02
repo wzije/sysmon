@@ -13,8 +13,6 @@ Simple server monitoring dashboard built with **Express + TypeScript**.
 
 - Express.js + TypeScript
 - Tailwind CSS
-- PM2 + Nginx
-- GitHub Actions (CI/CD)
 
 ## ⚙️ Run Locally
 
