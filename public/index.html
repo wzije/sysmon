@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Server Monitor</title>
+
+    <!-- Tailwind CDN -->
+    <link href="/output.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="max-w-5xl mx-auto p-6">
+
+        <!-- Header -->
+        <h1 class="text-3xl font-bold mb-6 text-center border-b pb-4">System Info</h1>
+
+        <div id="chart" class="grid grid-cols-2 gap-4 mb-5">
+            <div class="bg-white p-4 rounded-xl shadow">
+                <h2 class="font-semibold mb-2">📊 CPU Usage</h2>
+                <canvas id="cpuChart"></canvas>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl shadow">
+                <h2 class="font-semibold mb-2">📊 Memory Usage</h2>
+                <canvas id="memChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div id="dashboard" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        </div>
+
+
+
+
+
+
+    </div>
+
+    <script>
+        let cpuData = [];
+        let memData = [];
+        let labels = [];
+
+        const maxPoints = 20;
+
+        // INIT CHART
+        const cpuChart = new Chart(document.getElementById("cpuChart"), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'CPU %',
+                    data: cpuData,
+                    borderWidth: 2,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                animation: false
+            }
+        });
+
+        const memChart = new Chart(document.getElementById("memChart"), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Memory %',
+                    data: memData,
+                    borderWidth: 2,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                animation: false
+            }
+        });
+
+        async function load() {
+            const res = await fetch('/api/status');
+            const data = await res.json();
+
+            ///for chart
+            const now = new Date().toLocaleTimeString();
+
+            labels.push(now);
+            cpuData.push(parseFloat(data.cpu.usage));
+            memData.push(parseFloat(data.memory.usage));
+
+            // batasi data
+            if (labels.length > maxPoints) {
+                labels.shift();
+                cpuData.shift();
+                memData.shift();
+            }
+
+            cpuChart.update();
+            memChart.update();
+
+            const diskHtml = data.disk.map(d => `
+    <div class="text-sm">
+      <div class="font-semibold">${d.fs}</div>
+      <div>${d.usage}</div>
+      <div class="text-gray-500">Free: ${d.free}</div>
+    </div>
+  `).join("");
+
+            const netHtml = data.network.map(n => `
+    <div class="text-sm">${n.iface}: ${n.ip}</div>
+  `).join("");
+
+            document.getElementById("dashboard").innerHTML = `
+    
+    <!-- CPU -->
+    <div class="bg-white p-4 rounded-xl shadow">
+      <h2 class="font-semibold mb-2">💻 CPU</h2>
+      <p class="text-2xl font-bold">${data.cpu.usage}</p>
+      <p class="text-sm text-gray-500">${data.cpu.cores} cores</p>
+    </div>
+
+    <!-- RAM -->
+    <div class="bg-white p-4 rounded-xl shadow">
+      <h2 class="font-semibold mb-2">🧠 Memory</h2>
+      <p class="text-2xl font-bold">${data.memory.usage}</p>
+      <p class="text-sm text-gray-500">
+        ${data.memory.used} / ${data.memory.total}
+      </p>
+    </div>
+
+    <!-- Disk -->
+    <div class="bg-white p-4 rounded-xl shadow">
+      <h2 class="font-semibold mb-2">💾 Disk</h2>
+      ${diskHtml}
+    </div>
+
+    <!-- System -->
+    <div class="bg-white p-4 rounded-xl shadow">
+      <h2 class="font-semibold mb-2">⚙️ System</h2>
+      <p class="text-sm">${data.system.hostname}</p>
+      <p class="text-sm text-gray-500">${data.system.distro}</p>
+      <p class="text-sm text-gray-400">${data.system.kernel}</p>
+    </div>
+
+    <!-- Network -->
+    <div class="bg-white p-4 rounded-xl shadow">
+      <h2 class="font-semibold mb-2">🌐 Network</h2>
+      ${netHtml}
+    </div>
+
+    <!-- Uptime -->
+    <div class="bg-white p-4 rounded-xl shadow">
+      <h2 class="font-semibold mb-2">⏱️ Uptime</h2>
+      <p class="text-xl font-bold">${data.uptime}</p>
+    </div>
+
+    <!-- Process -->
+    <div class="bg-white p-4 rounded-xl shadow">
+      <h2 class="font-semibold mb-2">🔥 Processes</h2>
+      <p class="text-xl font-bold">${data.processes.running}</p>
+      <p class="text-sm text-gray-500">Running</p>
+    </div>
+
+  `;
+        }
+
+        setInterval(load, 3000);
+        load();
+    </script>
+
+</body>
+
+</html>
