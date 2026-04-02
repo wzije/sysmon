@@ -41,6 +41,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            set -e
+
             cd ~/project/sysmon
 
             echo "📥 Pull latest code"
@@ -54,3 +56,10 @@ jobs:
 
             echo "♻️ Restart app"
             pm2 restart sysmon || pm2 start dist/server.js --name sysmon
+
+            echo "⏳ Waiting for app to stabilize..."
+            sleep 5
+
+            echo "🔍 Health Check"
+            # Ganti 3000 dengan port aplikasi kamu
+            curl -f http://localhost:3000 || (echo "❌ App crashed! Check logs below:" && pm2 logs sysmon --lines 20 --no-daemon && exit 1)
