@@ -61,4 +61,5 @@ jobs:
             sleep 5
 
             echo "🔍 Health Check"
-            curl -f http://localhost:3000 || (echo "❌ App crashed! Check logs below:" && pm2 logs sysmon --lines 20 --no-daemon && exit 1)
+            curl -f http://localhost:3000 || (echo "❌ App crashed! Check logs below:" && pm2 logs sysmon --lines 20 --nostream && exit 1)
+
